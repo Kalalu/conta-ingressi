@@ -35,12 +35,19 @@
         $("#diminuisci").click(function(e) {
           var cnt = $('#monitor').html();
           e.preventDefault(); // prevents page reloading
-          socket.emit('value', eval(cnt) - 1);
+          if (eval(cnt) > 0) {
+            socket.emit('value', eval(cnt) - 1);
+          }
           return false;
         });
 
         socket.on('value', function(v){
           $('#monitor').html(v);
+          if (v >= 50) {
+            $('#monitor').css('background-color', 'red');
+          } else {
+            $('#monitor').css('background-color', 'green');
+          }
         });
 
         socket.on('init', function(v) {
